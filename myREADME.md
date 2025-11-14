@@ -126,7 +126,12 @@ To "handle" the missing values that were left within the dataset, I decided to d
 2. used the function `.to_csv()` on the subset, along with a string of what I wanted the name of the csv to be (in this case, `'cleaned_ameshousing.csv'`)
 This was to ensure that I wouldn't make any permanent changes to the original dataset
 #### Step 4: Outlier Handling with IQR Method
-
+1. Fetching the 1st and 3rd quartiles of a column
+2. Subtracting the 3rd quartile by the 1st to get the range
+3. Taking the range, multiplying it by 1.5, and adding that to the 3rd quartile
+4. Take the range, multiply it by 1.5, and subtracting that from the 1st quartile
+5. Making a subset of the dataframe and filtering out bounds using operands (greater than or equal to, less than or equal to)
+This was important specifically for creating regression plots, to ensure that they weren't affected by outliers
 ### Key Visualizations
 Include key visualizations that highlight important aspects of the data. Use graphs, charts, or any other visual representation to make your points.
 
