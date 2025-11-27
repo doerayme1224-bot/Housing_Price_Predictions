@@ -1,118 +1,186 @@
-# 🏡 Ames Housing Data Project
-Welcome to our next project! It's time to start exploring and modeling. 🚀
+# Housing Price Predictions
+## Problem Statement
+For this analysis, I had to create a ML model in order to predict the cost of house using a couple of features. This can help with a few things. It could help real-estate investors with developing strategies on where to focus there money, it could help Mortgage lenders asses the risk f new loans, and it could even be used as a means to help Property tech business such as Zillow create better and more accurate predictions on what the cost of a house wil be within a given area. my analysis of the data that I have, the Iowa Ames Housing data, is going to be helpful in driving these decisions as it comes up with valuable and accurate predictions, while also showcasing how the difference in priorities within suburban areas can alter the price further
+## Data Dictionary
+| Column Name | Description |
+|-------------|-------------|
+|Order| Observation number|
+|PID Parcel| identification number  - can be used with city web site for parcel review.| 
+|MS SubClass| Identifies the type of dwelling involved in the sale.|	
+|MS Zoning| Identifies the general zoning classification of the sale.|
+|Lot Frontage| Linear feet of street connected to property|
+|Lot Area| Lot size in square feet|
+|Street| Type of road access to property|
+|Alley| Type of alley access to property|
+|Lot Shape| General shape of property|
+|Land Contour| Flatness of the property|
+|Utilities| Type of utilities available|
+|Lot Config| Lot configuration|
+|Land Slope| Slope of property|
+|Neighborhood| Physical locations within Ames city limits (map available)|
+|Condition 1| Proximity to various conditions|
+|Condition 2| Proximity to various conditions (if more than one is present)|
+|Bldg Type| Type of dwelling|
+|House Style| Style of dwelling|
+|Overall Qual| Rates the overall material and finish of the house|
+|Overall Cond| Rates the overall condition of the house|
+|Year Built| Original construction date|
+|Year Remod/Add| Remodel date (same as construction date if no remodeling or additions)|
+|Roof Style| Type of roof|
+|Roof Matl| Roof material|
+|Exterior 1| Exterior covering on house|
+|Exterior 2| Exterior covering on house (if more than one material)|
+|Mas Vnr Type| Masonry veneer type|
+|Mas Vnr Area| Masonry veneer area in square feet|
+|Exter Qual| Evaluates the quality of the material on the exterior|
+|Exter Cond| Evaluates the present condition of the material on the exterior|
+|Foundation| Type of foundation|
+|Bsmt Qual| Evaluates the height of the basement|
+|Bsmt Cond| Evaluates the general condition of the basement|
+|Bsmt Exposure| Refers to walkout or garden level walls|
+|BsmtFin Type 1| Rating of basement finished area|
+|BsmtFin SF 1| Type 1 finished square feet|
+|BsmtFinType 2| Rating of basement finished area (if multiple types)|
+|BsmtFin SF 2| Type 2 finished square feet|
+|Bsmt Unf SF| Unfinished square feet of basement area|
+|Total Bsmt SF| Total square feet of basement area|
+|Heating| Type of heating|
+|HeatingQC| Heating quality and condition|
+|Central Air| Central air conditioning|
+|Electrical| Electrical system|
+|1st Flr SF| First Floor square feet|
+|2nd Flr SF| Second floor square feet|
+|Low Qual Fin SF| Low quality finished square feet (all floors)|
+|Gr Liv Area| Above grade (ground) living area square feet|
+|Bsmt Full Bath| Basement full bathrooms|
+|Bsmt Half Bath| Basement half bathrooms|
+|Full Bath| Full bathrooms above grade|
+|Half Bath| Half baths above grade|
+|Bedroom| Bedrooms above grade (does NOT include basement bedrooms)|
+|Kitchen| Kitchens above grade|
+|KitchenQual| Kitchen quality|
+|TotRmsAbvGrd| Total rooms above grade (does not include bathrooms)|
+|Functional| Home functionality (Assume typical unless deductions are warranted)|
+|Fireplaces| Number of fireplaces|
+|FireplaceQu| Fireplace quality|
+|Garage Type| Garage location|
+|Garage Yr Blt| Year garage was built|
+|Garage Finish| Interior finish of the garage|
+|Garage Cars| Size of garage in car capacity|
+|Garage Area| Size of garage in square feet|
+|Garage Qual| Garage quality|
+|Garage Cond| Garage condition|
+|Paved Drive| Paved driveway|
+|Wood Deck SF| Wood deck area in square feet|
+|Open Porch SF| Open porch area in square feet|
+|Enclosed Porch| Enclosed porch area in square feet|
+|3-Ssn Porch| Three season porch area in square feet|
+|Screen Porch| Screen porch area in square feet|
+|Pool Area| Pool area in square feet|
+|Pool QC| Pool quality|
+|Fence| Fence quality|
+|Misc Feature| Miscellaneous feature not covered in other categories|
+|Misc Val| $Value of miscellaneous feature|
+|Mo Sold| Month Sold (MM)|
+|Yr Sold| Year Sold (YYYY)|
+|Sale Type| Type of sale|
+|Sale Condition| Condition of sale|
+|SalePrice| Sale price $$|
+## Executive Summary
+### Data Cleaning Steps
+#### Step 1: Handling Object Value Types
+I handeled missing values in a couple of different ways within this dataset. 
+#### 1st Method: Using the `.astype()` function...
+1. selected the column I was trying to impute (like the "Central Air" column)
+2. selected instances within that column that had "Y" by using the equality operator
+3. converted the values of the pandas series from a object to a integer using the function `.astype()`
+4. saved the changes within that column using column assignment (making the series itself a variable)
+this method was very efficient, particularly at deealing with columns that had 2 values in order to make a binary column
+#### 2nd Method: Using the `.replace()` function (in two ways)...
+I implemented the replace method in two different ways...
+#### First Method
+1. created a variable, one was a list of the object values of a specific column, and the other was a list of the numerical values that I was replacing them with
+2. I selected the specific column from the dataframe that I was trying to impute those values with
+3. using the `to_replace` parameter within the replace function, I set it to the variable of the list of the objects within that column
+4. using the `value` parameter within the replace function, I set it to the variable of the list of the numerical values that I am trying to impute it with
+5. saved the changes within that column using column assignment (making the series itself a variable)
+6. If the column still had missing values, I imputed them using `fillna()`, as they were not specifically errors, but just a sign that the house didn't have that particular feature
+7. saved the changes within that column again using column assignment if I had to fill missing values
+#### Second Method
+1. I selected the specific column from the dataframe that I was trying to impute
+2. using the replace function, I feed a dictionary, the keys are the names of the vlaues within the dataframe, the values are the values of the numbers I was trying to impute
+3. saved the changes within that column using column assignment (making the series itself a variable) *these had no missing values, so I didn't have to impute them*
+#### 3rd Method: Using the `.Categorical()` function...
+1. I selected the `.Categorical()` function from the pandas library
+2. I selected the specific column from the dataframe that I was trying to impute as the `values` parameter in the function
+3. gave the parameter `categories` an array of all of the unique object values within that column of the dataframe
+4. set the `ordered` parameter to `True` to ensure that the dummy variables would be in the order of the list in `categories`
+5. saved the changes within that column using column assignment (making the series itself a variable)
+6. I selected the specific column from the dataframe that I was trying to impute and used the attribute `.cat.codes` to turn the categorical values into dummy variables
+7. saved the changes within that column again using column assignment
+This was a nice breakthrough, as it allowed me to impute multiple values without needing to worry about the amount of Uniqiue values within that specific column, and it also automatically handled missing values within the dataset, meaning I didn't have to manually fill them.
+#### Step 2: Handling Missing Values
+To "handle" the missing values that were left within the dataset, I decided to drop them using the `.dropna()` function. This was because I was planning on doing machine learning, and imputting values with the median or mean would've just created synthetic data, which could've led to misleading results for the model.
+#### Step 3: Saving the Cleaned Dataeset
+1. created a subset of the dataset which I called `subset1`
+2. used the function `.to_csv()` on the subset, along with a string of what I wanted the name of the csv to be (in this case, `'cleaned_ameshousing.csv'`)
+This was to ensure that I wouldn't make any permanent changes to the original dataset
+#### Step 4: Outlier Handling with IQR Method
+1. Fetching the 1st and 3rd quartiles of a column
+2. Subtracting the 3rd quartile by the 1st to get the range
+3. Taking the range, multiplying it by 1.5, and adding that to the 3rd quartile
+4. Take the range, multiply it by 1.5, and subtracting that from the 1st quartile
+5. Making a subset of the dataframe and filtering out bounds using operands (greater than or equal to, less than or equal to)
+This was important specifically for creating regression plots, to ensure that they weren't affected by outliers
+### Key Visualizations
+Include key visualizations that highlight important aspects of the data. Use graphs, charts, or any other visual representation to make your points.
 
-#### Refrence
-The Ames Housing dataset was compiled by Dean De Cock in 2011, for use in data science education.
+#### Visualization 1: Distribution of Sale Price
+A histogram that shows us the distributions of the housing prices (X) and the amount of occurences of that price (Y). important as it showcases what the typical prices of houses within the area would be.
 
-* * * * *
+![Visualization 1](Distribution_of_Sale_Price.png)
 
-### Part 1: Exploratory Data Analysis (EDA) and Data Cleaning 🧑‍🔬
+#### Visualization 2: Heatmap of Correlation Coefficients and the Target
+A heatmap that shows us all the correlation coefficients of each feature with the target we are trying to predict (SalePrice). Important as it showcasing many trends within Ames, Iowa, and it also will be helpful when chosinf features in order to predict the target variable.
 
-#### Primary Learning Objectives:
+![Visualization 2](Correlation_Coefficients_of_Target_and_Features.png)
 
--   Understand the Ames Housing dataset through EDA. 📊
--   Perform any necessary data cleaning and feature engineering. 🧹
--   Prepare a clean dataset for modeling. ✔️
+#### Visualization 3: Barplot of the Sale Price and the Garage Type
+A barplot which shows us the median sale price (Y) of a house by the garage type of the house (X) if it has a garage. Important as it shows us how the type of garage will affect the cost of a house. Built-in garages are the most expensive with lots of variability between the median and the quartiles of a data set (the error bars represent the IQR), while houses with no garages appear to be the cheapest, but car-port style garages have a smaller distribution when compared to houses with no garages.
 
-#### Exploring the Dataset
+![Visualization 3](Garage_Type_by_Median_Sale_Price.png)
 
-You will start by exploring the Ames Housing dataset, which contains over 70 features related to the properties in Ames, Iowa. Your goal is to identify relationships, correlations, and any potential outliers that could affect the prediction model later on.
+#### Visualization 4: Barplot of the Sale Price and the Houses Quality
+A barplot which shows us the median sale price (Y) by the houses quality, on a scale from 1 to 10 (X). Important as it shows how a houses overall quality **heavily** affects the price of a house. houses that have a quality of 10 are the most expensive at 450,000 dollars, with a large amount of variability (error bars represent the IQR), but a house with a quality rating of 1 is dramatically cheaper at 47,300 dollars and with a much tighter distribution.
 
-In the **EDA.ipynb** notebook, you will:
+![Visualization 4](Houses_Quality_and_Median_Sale_Price.png)
 
--   Load and inspect the **ameshousing.csv** file. 🔍
--   Review the data dictionary [here](data/DataDocumentation.txt) to understand the meaning of each feature in the dataset. This is crucial for making informed decisions during your analysis.
--   Conduct Exploratory Data Analysis (EDA) by:
-    -   Analyzing distributions of key features. 📈
-    -   Identifying missing data and handling it appropriately (e.g., filling or removing). ❓
-    -   Identifying correlations between features and the target (sale price). 🔗
-    -   Visualizing relationships between variables using plots (e.g., histograms, scatter plots, heatmaps). 🎨
-    -   Identifying and handling outliers. ⚠️
+#### Visualization 5: Regression Plot of the Sale Price and the Lot Area
+A regression plot which showcases the relationship between the sale price of a house (X), and the lot area of a house (Y). Important as it shows us that the area of a house may not affect the price of a housee in this area as much as you may assume. A correlation coefficient of only 0.35, implies that there is a moderate relationship between the sale price and the lot area, so an increase in one of the two values may have an impact on eachother, but it is unlikely
 
-#### Feature Engineering:
+![Visualization 5](Regression_Plot_of_Price_and_Area_(0.350).png)
 
--   Create new features or transform existing ones if necessary. 🔄
+#### Visualization 6: Regression Plot of the Sale Price and the Garage Area
+A regression plot which showcases the relationship between the sale price of the house (X) and the garage area of a house (Y). Important as it shows that the area of the garage has a pretty stron relationship with the sale price. It is escpicially when taking into account the previous graph, as the correlation coefficient of this graph being 0.614 implies a deffinate stronger relationship compared to the previous regression plot. It gives us insights into what the people of Ames, Iowa, specifically look for when buyin a house.
 
-#### Data Cleaning:
+![Visualization 6](Regression_Plot_of_Price_and_Area_(0.614).png)
 
--   Handle missing values and remove or impute outliers for the **ameshousing.csv**.
--   Apply the same cleaning methods consistently to the entire dataset to ensure a clean version for modeling, without dropping any rows.
+## Model Performance
+### Model Selection
+The model type that I chose for this analysis is the Linear Regression model, as I want to more easily explain the cause and effect of the features and how they affect the target variable.  
+### Evaluation Metrics
 
-At the end of your EDA, you should have a clean dataset ready for modeling.
+| Model             | RMSE     | R²       |
+|-------------------|----------|----------|
+| Model 1           | NaN  | 0.798  |
+| Model 2           | NaN  | 0.811  |
+| Model 3           | NaN  | 0.817  |
+| Model 4           | NaN  | 0.818  |
+| Model 5           | NaN  | 0.831  |
+| Model 6           | NaN  | 0.831  |
+| Model 7           | NaN  | 0.814  |
+| Model 8           | NaN  | 0.831  |
+| Model 9           | 34861.48  | 0.832  |
 
-#### Saving the Cleaned Dataset
-
-Once you have completed the EDA and data cleaning, save the cleaned dataframe as a new CSV file to be used for the next step.\
-Save your work in **EDA.ipynb**. 💾
-
-```python
-# Example code to save cleaned dataset
-dataset_df.to_csv('cleaned_ameshousing.csv')
-```
-
-* * * * *
-
-### Part 2: Modeling Process 📈
-
-Once you have completed your EDA and saved your cleaned dataset, you will now build a regression model in the **modeling.ipynb** notebook.
-
-#### Set-Up 🛠️
-
-Before you begin working on the modeling process, complete the following steps:
-
--   Ensure you have a clean dataset (`cleaned_ameshousing.csv`) from the EDA step.
--   Review the material on the regression modeling process.
-
-#### The Modeling Process
-
-In **modeling.ipynb**, you will:
-
--   Load the **cleaned_ameshousing.csv** file. 📥
--   Use the cleaned data to create and refine a regression model.
--   Split your data into training and testing sets. 🔄
--   Perform feature selection if necessary. ⚙️
--   Train the model using Linear Regression. 📊
--   Evaluate the performance using metrics like RMSE or R². 📈
--   Make predictions on the cleaned dataset.
-
-#### Model Evaluation, Enhancement, and Iteration
-
--   Document any improvements or enhancements made to the model throughout the process. This includes any changes in features, parameters, or model adjustments.
--   Track the decisions you make to improve model performance, such as how you addressed overfitting, underfitting, or performance bottlenecks.
--   Evaluate your model performance using appropriate metrics and adjust your model as needed. Consider:
-    -   How your model generalizes to new data.
-    -   Iterating on the model by tuning hyperparameters or refining features.
-
-* * * * *
-
-#### Final Deliverables:
-
--   **Technical Report**: Create your own **README.md** file for this project.
--   **Notebooks**: Submit the **EDA.ipynb** and **modeling.ipynb** notebooks.
--   **Cleaned Dataset**: Submit the **cleaned_ameshousing.csv** file.
--   **Presentation**: A 5-10 minute presentation detailing your findings, model performance, and key recommendations.
-
-Be sure to **document your model improvements and enhancements** in your notebooks, including the reasoning behind any decisions you made to refine your model.
-
-## 📝 Rubric
-The grading for this project will be based on three primary categories: **Functional**, **Interpersonal**, and **Technical**. Each category includes specific dimensions that will be evaluated on a scale from 1 to 5. To pass the project, you must score **3 or higher** in each component.
-
-| FIT Category | Dimension | Exemplary (5) | Proficient (4) | Minimally Career-Ready (3) | Needs Improvement (2) | Incomplete Work (1) |
-| --- | --- | --- | --- | --- | --- | --- |
-| Functional | Value/Impact | Deep, impactful insights with clear application to housing market strategies and decisions. | Actionable insights with strong relevance to housing market decisions. | Some meaningful insights, but lacks strong application to the domain. | Minimal insights with unclear relevance to the housing market. | No meaningful insights or model predictions. |
-|  | Requirements | Fully detailed steps, with deep insights and consistency throughout. | All key steps thoroughly completed with full attention to detail. | All key steps present but lacks detail or consistency in some parts. | Missing some steps or minimal effort in parts of the process. | Missing key steps, incomplete work. |
-|  | Timelines | Ahead of schedule, with strong planning and time management. | On time with proper time management. | On time but rushed or incomplete. | Late with minimal explanation. | Significantly late without explanation. |
-| Interpersonal | Professionalism | Highly polished, engaging, and professional throughout. | Clear, professional, and well-organized. | Professional tone, but lacks clarity or polish in some parts. | Somewhat professional but lacking clarity in sections. | Unprofessional tone, unclear, and poorly structured. |
-|  | Presentation | Highly engaging, clear, and visually appealing with strong storytelling. | Well-organized, engaging, and visually appealing presentation. | Clear presentation, but lacks some visual appeal or engagement. | Somewhat unclear and lacking visual organization. | Disorganized and unclear presentation. |
-|  | Feedback | Fully integrates feedback, demonstrating a strong learning curve and improvements. | Actively engages with feedback and refines the work accordingly. | Incorporates some feedback with moderate refinement. | Minimal engagement or slight changes based on feedback. | No engagement with feedback. |
-| Technical | Complexity | Advanced and deep exploration with advanced feature engineering techniques. | Thorough EDA with comprehensive cleaning and innovative feature engineering. | Solid exploration, cleaning, and feature engineering with some complexity. | Some exploration and cleaning, but limited feature engineering. | Very basic or incomplete analysis, minimal feature engineering. |
-|  | Design | Exceptionally well-organized notebooks with clear and thorough explanations and commentary. | Well-organized notebooks with clear structure, comments, and explanations. | Clear and organized notebooks but lacking some explanations or comments in some parts. | Somewhat organized notebooks with minimal clarity in explanations. | Poorly structured notebooks, unclear code. |
-|  | Reliability | Reliable, highly accurate model with clear explanations of data handling and robust predictions. | Accurate model with correct handling of outliers, missing data, and well-structured predictions. | Generally correct model performance, but lacks some consistency or clarity. | Some errors in model predictions, outliers, or missing data handling. | Numerous errors in data cleaning or model performance. |
-
-
-**Passing Criteria:**
-
-*   **Minimum Requirement**: A score of **3 or higher** in each component to pass.
-*   **Total Points/Percentages**: These are provided for informational purposes but do not affect the passing criteria.
-
-* * *
+## Conclusions/Recommendations
+Summarize the main findings from your analysis. If applicable, provide recommendations based on the insights gained from the data.
