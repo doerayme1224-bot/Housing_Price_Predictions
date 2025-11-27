@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+</head>
+<body>
+    <h1>House Price Prediction</h1>
+    <form action="/predict" method="POST">
+        <label for="Overall Qual">Overall Quality:</label>
+        <input type="text" name="Overall Qual" required><br>
+        <label for="Exter Qual">External Quality:</label>
+        <input type="text" name="Exter Qual" required><br>
+        <label for="Gr Liv Area">Square Footage of Everything (except Basement):</label>
+        <input type="text" name="Gr Liv Area" required><br>
+        <label for="Kitchen Qual">Kitchen Quality:</label>
+        <input type="text" name="Kitchen Qual" required><br>
+        <label for="Garage Cars">Number of Cars the Garage can Hold:</label>
+        <input type="text" name="Garage Cars" required><br>
+        <label for="Garage Area">Square Footage of Garage:</label>
+        <input type="text" name="Garage Area" required><br>
+        <label for="Total Bsmt SF">Square Footage of Basement:</label>
+        <input type="text" name="Total Bsmt SF" required><br>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_test %}
+        <h2>{{ prediction_test }}</h2>
+    {% endif %}
+</body>
+</html>
