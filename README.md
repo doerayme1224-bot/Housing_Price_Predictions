@@ -165,22 +165,13 @@ A regression plot which showcases the relationship between the sale price of the
 
 ![Visualization 6](Regression_Plot_of_Price_and_Area_(0.614).png)
 
-## Model Performance
+## Baseline Model
+I created a model, only using a few fields, this was because I planned on deploying a application that everyday individuals could use and understand which only involved creating a subset with seven features
 ### Model Selection
 The model type that I chose for this analysis is the Linear Regression model, as I want to more easily explain the cause and effect of the features and how they affect the target variable.  
 ### Evaluation Metrics
 
 | Model             | RMSE     | R²       |
 |-------------------|----------|----------|
-| Model 1           | NaN  | 0.798  |
-| Model 2           | NaN  | 0.811  |
-| Model 3           | NaN  | 0.817  |
-| Model 4           | NaN  | 0.818  |
-| Model 5           | NaN  | 0.831  |
-| Model 6           | NaN  | 0.831  |
-| Model 7           | NaN  | 0.814  |
-| Model 8           | NaN  | 0.831  |
-| Model 9           | 34861.48  | 0.832  |
+| Linear Regression           | 38578.58  | 80.0931%  |
 
-## Conclusions/Recommendations
-Summarize the main findings from your analysis. If applicable, provide recommendations based on the insights gained from the data.
